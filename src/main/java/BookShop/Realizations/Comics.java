@@ -5,89 +5,79 @@ import BookShop.Interfaces.IComics;
 import java.io.Serializable;
 
 /**
- * комиксы
+ *        Printed Comics Literature
  */
 public class Comics extends PaperLiterature implements IComics, Serializable {
 
+
     /**
-     * страницы
+     *        field - Pages
      */
     private int pages;
 
+
     /**
-     * илюстратор
+     *        field - Illustrator
      */
     private String Illustrator;
 
-    public Comics(final String[] fields) throws ProductException {
-        if (fields.length == 4) {
-            super.setName(fields[0]);
-            super.setPrice(Float.parseFloat(fields[1]));
-            this.pages = Integer.parseInt(fields[2]);
-            this.Illustrator = fields[3];
-        }
-    }
 
-    public static String[] GetFieldNames() {
-        return new String[]{"Name", "Price", "Pages", "Illustrator"};
-    }
-
-    public Comics (final int id,final String name, final float price, final String Illustrator, final int pages) throws ProductException {
-        this(name, price, Illustrator, pages);
-        super.setId(id);
-    }
     /**
-     * конструктор для заполнения всех полей
-     */
-    public Comics(final String name, final float price, final String Illustrator, final int pages) throws ProductException {
-
+     *        Constructor with Parameters
+     * */
+    public Comics (final int id,final String name, final float price, final String Illustrator, final int pages) throws ProductException {
+        super.setId(id);
         super.setPrice(price);
         super.setName(name);
         this.Illustrator = Illustrator;
         this.pages = pages;
     }
 
+
     /**
-     * конструктор по умолчанию
+     *        Default constructor
      */
     public Comics() {
     }
 
+
     /**
-     * получение страниц
+     *        Returns the number of pages
      */
     public int getPages() {
         return pages;
     }
 
+
     /**
-     * получение иллюстратора
+     *        Returns the Illustrator name
      */
     public String getIllustrator() {
         return Illustrator;
     }
 
+
     /**
-     * сеттер для страниц
+     *        Sets the number of pages
      */
     public void setPages(int pages) {
         this.pages = pages;
     }
 
+
     /**
-     * сеттер для иллюстратора
+     *        Sets the Illustrator name
      */
     public void setIllustrator(String illustrator) {
         this.Illustrator = illustrator;
     }
 
+
     /**
-     * преобразование в строку
+     * Converts Comics object to String
      */
     @Override
     public String toString() {
         return super.toString() + "|\t" + pages + " pages, Illustrator: " + Illustrator;
     }
-
-
 }

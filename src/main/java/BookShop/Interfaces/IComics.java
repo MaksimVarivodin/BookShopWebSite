@@ -2,24 +2,32 @@ package BookShop.Interfaces;
 
 import java.io.Serializable;
 
+/**
+ *      Printed Comics Literature Interface
+ * */
 public interface IComics extends IPaperLit, Serializable {
+
+
     /**
-     *      получение страниц
+     *      Returns the number of pages
      * */
     int getPages() ;
 
+
     /**
-     *      получение иллюстратора
+     *      Returns the Illustrator name
      * */
     String getIllustrator();
 
+
     /**
-     *      сеттер для страниц
+     *      Sets the number of pages
      * */
     void setPages(int pages);
 
+
     /**
-     *      сеттер для иллюстратора
+     *      Sets the Illustrator name
      * */
     void setIllustrator(String illustrator);
 

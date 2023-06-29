@@ -2,26 +2,47 @@ package BookShop.Interfaces;
 
 import  BookShop.Realizations.ProductException;
 
+
+/**
+ *      Paper Printed Literature Interface
+ * */
 public interface IPaperLit {
+
+
+    /**
+     *      Returns ID
+     * */
     int getId();
 
-    void setId(int id);
 
     /**
-     *      геттер цены
+     *      Sets ID
+     * */
+    void setId(int id);
+
+
+    /**
+     *      Returns price
      * */
     float getPrice();
+
+
     /**
-     *      геттер имени
+     *      Returns name
      * */
     String getName();
+
+
     /**
-     *      сеттер имени
+     *      Sets name
      * */
     void setName(String name);
 
+
     /**
-     *      сеттер цены
+     *      Sets price
      * */
     void setPrice(float price) throws ProductException;
+
+
 }

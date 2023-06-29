@@ -9,22 +9,36 @@ import java.util.List;
 import java.util.NoSuchElementException;
 
 /**
- *      класс контейнера
+ *      Container of PaperLiterature
  * */
 public class Container<T extends IPaperLit>implements Serializable  {
+
+
     /**
-     * поле массива
+     *    field - Array
      */
     private T[] array;
-    class Enumerator implements Enumeration<T>{
-        private int position = array.length;
 
+
+    /**
+     *      Built-in Iterator class
+     * */
+    class Enumerator implements Enumeration<T>{
+        /**
+         *    field - Current position
+         * */
+        private int position = array.length;
+        /**
+         * Method that returns true if there are more elements
+         * */
         @Override
         public boolean hasMoreElements()
         {
             return position > 0;
         }
-
+        /**
+         * Returns the next element
+         * */
         @Override
         public T nextElement() throws NoSuchElementException
         {
@@ -32,65 +46,58 @@ public class Container<T extends IPaperLit>implements Serializable  {
                 throw new NoSuchElementException("Container");
             return array[--position];
         }
-
-
     }
+
+
+    /**
+     * Method that returns Iterator for Container
+     * */
     public Enumeration<T> elements()
     {
         return new Enumerator();
     }
-    public Enumeration<T> PriceFilter(final float minPrice, final float maxPrice)
-    {
 
-        return new Enumeration<T>(){
-            int current = array.length;
-            /**
-             * тут мы ищем елементы которые входят в пределы
-             * */
-            @Override
-            public boolean hasMoreElements()
-            {
-                for(int i = current - 1; i> 0;i--){
-                    if(array[i].getPrice() >= minPrice && array[i].getPrice()<= maxPrice){
-                        current = i;
-                        return true;
-                    }
-                }
-                current = -1;
-                return false;
-            }
-            /**
-             * тут мы возвращаем елементы
-             * */
-            @Override
-            public T nextElement() throws NoSuchElementException
-            {
-                if(current == -1){
-                    throw new NoSuchElementException("Container");
-                }
-                return array[current];
-            }
-        };
-    }
+
+    /**
+     *    Method that returns length
+     */
     public int  getLength(){
         return  array.length;
     }
+
+
+    /**
+     * Method that returns true if array is empty
+     * */
     public boolean Empty(){ return array== null;}
+
+
+    /**
+     *          Constructor that allocates memory for array of given size
+     * */
     public Container(int l){
         this.array = (T[]) new Object[l];
     }
+
+
     /**
-     * конструктор по умолчанию
+     *      Default constructor
      */
     public Container() {
         T[] array = (T[])new IPaperLit[0];
     }
+
+
+    /**
+     *      Copy constructor
+     * */
     public Container(Container<T> cont){
         array = cont.array;
     }
 
+
     /**
-     * получить элемент по индексу
+     *      Returns element at given index
      */
     public T getByIndex(final int index) throws ContainerException {
         if (index < 0 || index >=  array.length) {
@@ -100,8 +107,9 @@ public class Container<T extends IPaperLit>implements Serializable  {
 
     }
 
+
     /**
-     * вставка(в конец)
+     *      Adds element to the end of an array
      */
     public void Add(final T element) throws ContainerException {
         if(array == null){
@@ -111,35 +119,51 @@ public class Container<T extends IPaperLit>implements Serializable  {
 
     }
 
+
     /**
-     * вставка по индексу
+     *      Adds element to the argument "index" position,
+     *      moving the elements on the right on one position to the right.
      */
     public void AddByIndex(final T elem, final int index) throws ContainerException {
         T[] buffer = null;
-        // создаем новый массив
+        /*
+        *       Case when the array is not empty
+        * */
         if (array != null) {
             buffer = (T[]) new IPaperLit[array.length + 1];
 
-            // предусматриваем варианты
-            // когда индекс выходит за
-            // рамки массива
+            /*
+            *       Here we check if the index is out of bounds
+            * */
             if (index < 0 || index > buffer.length)
                 throw new ContainerException(index);
-            // заполняем новый массив
+            /*
+            *       Here we copy the elements
+            * */
             System.arraycopy(array, 0, buffer, 0, index);
             buffer[index] = elem;
+            /*
+            *       Here we fill the part of the array that was to the right of current position
+            * */
             if (array.length - index >= 0) System.arraycopy(array, index, buffer, index + 1, array.length - index);
-        } else {
+        }
+        /*
+        *       Case when the array is empty
+        * */
+        else {
             buffer = (T[]) new IPaperLit[1];
             buffer[0] = elem;
         }
 
-        // сохраняем новый массив
+        /*
+        *       Here we save the new array to the array field
+        * */
         array = buffer;
     }
 
+
     /**
-     * удаление из конца
+     *      Method that deletes element from the end
      */
     public void Delete() throws ContainerException {
         if (array != null)
@@ -147,31 +171,51 @@ public class Container<T extends IPaperLit>implements Serializable  {
 
     }
 
+
     /**
-     * удаление по индексу
+     * Method that deletes element in position which is set as argument "index"
      */
     public void Delete(final int index) throws ContainerException {
-        // создаем новый массив
+        /*
+        *       Here we create a new array
+        * */
         T[] buffer = (T[]) new IPaperLit[array.length - 1];
 
-        // предусматриваем варианты
-        // когда индекс выходит за
-        // рамки массива
+        /*
+        *       Here we check if the index is out of bounds
+        * */
         if (index < 0 || index >= array.length)
             throw new ContainerException(index);
-        // заполняем новый массив
+
+        /*
+        *       Here we fill new array
+        * */
         System.arraycopy(array, 0, buffer, 0, index);
+        /*
+        *       Here we fill the array with the rest of the elements which were after the deleted element
+        * */
         if (array.length - (index + 1) >= 0)
             System.arraycopy(array, index + 1, buffer, index + 1 - 1, array.length - (index + 1));
-        // сохраняем новый массив
+
+        /*
+        *       Here we save the new array
+        * */
         array = buffer;
     }
+
+
+    /**
+     *      Sets passed element to the "index" position
+     * */
     public void SetByIndex(int index, T element) throws ContainerException {
-        // предусматриваем варианты
-        // когда индекс выходит за
-        // рамки массива
+        /*
+        *       Here we check if the index is out of bounds
+        * */
         if (index < 0 || index >= array.length)
             throw new ContainerException(index);
+        /*
+        *       Here we create array if its empty
+        * */
         if (array == null)
                 AddByIndex(element, 0);
         else {
@@ -179,18 +223,11 @@ public class Container<T extends IPaperLit>implements Serializable  {
         }
 
     }
+
+
     /**
-     * печать массива
-     */
-    public void Print() {
-        if(array == null)
-            System.out.println("Array is Empty");
-        else
-            for (T variable : array )
-                {
-                    System.out.println(variable);
-                }
-    }
+     * Converts Container object to String
+     * */
     @Override
     public String toString(){
         String res = "";
@@ -204,8 +241,9 @@ public class Container<T extends IPaperLit>implements Serializable  {
 
     }
 
+
     /**
-     * обмен элементов по индексу
+     *    Swap method
      */
     protected void Swap(final int index1, final int index2) {
         T buffer = array[index1];
@@ -213,19 +251,19 @@ public class Container<T extends IPaperLit>implements Serializable  {
         array[index2] = buffer;
     }
 
-    /**
-     * зануление полей класса, триггеринг gc()
-     */
-    public void Clear() {
-        if(array == null)
-            System.out.println("Array is empty");
-        else array = null;
-    }
 
     /**
-     * сортировка
-     * AscDesc - true - возростающий порядок
-     * AscDesc - false - нисходящий порядок
+     *      Clearing array
+     */
+    public void Clear() {
+        array = null;
+    }
+
+
+    /***
+     * Sort method :
+     *     1: AscDesc - true - ascending order .
+     *     2: AscDesc - false - descending order .
      */
     public void Sort(boolean AscDesc) {
         if (array!= null)
@@ -238,18 +276,11 @@ public class Container<T extends IPaperLit>implements Serializable  {
                 }
             }
     }
-    public void FillStaticVars(){
-        if (array != null)
-        for (T t : array) {
-            PaperLiterature.Add((PaperLiterature) t);
-        }
-    }
-    public void DeleteStaticVars(){
-        if (array != null)
-        for (T t : array) {
-            PaperLiterature.Delete((PaperLiterature) t);
-        }
-    }
+
+
+    /**
+     *      Deserialization of Container
+     * */
     public void Deserialization(String path)throws IOException, ClassNotFoundException{
         FileInputStream fis = new FileInputStream(path);
         ObjectInputStream ois = new ObjectInputStream(fis);
@@ -258,6 +289,11 @@ public class Container<T extends IPaperLit>implements Serializable  {
         ois.close();
 
     }
+
+
+    /**
+     *      Serialization of Container
+     * */
     public void Serialization(String path)throws IOException {
         FileOutputStream fos = new FileOutputStream(path);
         ObjectOutputStream oos = new ObjectOutputStream(fos);
@@ -267,10 +303,17 @@ public class Container<T extends IPaperLit>implements Serializable  {
         oos.flush();
         oos.close();
     }
+
+
+    /**
+     *      Conversion to ArrayList
+     * */
     public ArrayList<T> toArrayList(){
         if (this.array != null){
             return new ArrayList<>(List.of(this.array));
         }
        return null;
     }
+
+
 }

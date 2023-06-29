@@ -4,87 +4,84 @@ import BookShop.Interfaces.IPaperLit;
 
 import java.io.Serializable;
 
-/**
- *
- *      абстрактный класс-родитель — бумажная литература
- *
- */
 
+/**
+ * PaperLiterature abstract class
+ */
 public abstract class PaperLiterature implements IPaperLit, Serializable {
 
+
     /**
-     *      поле имени книги
+     * field - Name
      * */
     protected String name;
 
+
     /**
-     *      поле цены книги
+     *      field - Price
      * */
     protected float price;
 
+
     /**
-     *      поле уникального номера бумажного произведения
+     *      field - ID
      * */
     protected int id;
 
-    public static String[] GetFieldNames (){
-        return new String[]{"Name","Price"};
-    }
-
-    // BigDecimal
-    /**
-     *      статическое поле - общая стоимость всех экземпляров книг-наследников
-     * */
-    private static float AllBooksCost;
-    public static float GetAllBooksCost(){return AllBooksCost;}
 
     /**
-     *      статическая переменная — счетчик экземпляров книг-наследников
+     *      Default constructor
      * */
-    private static int BooksCount;
-    public static int GetBooksCount(){ return BooksCount;}
-
-    /**
-     *      конструктор по умолчанию
-     * */
-
     public PaperLiterature(){}
 
+
+    /**
+     *      Returns ID
+     * */
     @Override
     public int getId() {
         return id;
     }
-    @Override
-    public void setId(int id) {
-        this.id = id;
-    }
+
 
     /**
-     *      геттер цены
+     *      Returns price
      * */
     @Override
     public float getPrice() {
         return price;
     }
 
+
     /**
-     *      геттер имени
+     *      Returns name
      * */
     @Override
     public String getName() {
         return name;
     }
 
+
     /**
-     *      сеттер имени
+     *      Sets ID
+     * */
+    @Override
+    public void setId(int id) {
+        this.id = id;
+    }
+
+
+    /**
+     *      Sets name
      * */
     @Override
     public void setName(String name) {
         this.name = name;
     }
 
+
     /**
-     *      сеттер цены
+     *      Sets price
      * */
     @Override
     public void setPrice(float price) throws ProductException {
@@ -93,34 +90,14 @@ public abstract class PaperLiterature implements IPaperLit, Serializable {
         this.price = price;
     }
 
+
     /**
-     *      преобразование в строку
+     *      Converts PaperLiterature object to String
      * */
     @Override
     public String toString(){
         return "Price:\t"+ price + "\tName:\t"+ name+ "\t";
     }
 
-    /**
-     *      посчитать среднее
-     * */
-    public static float CountAverage(){
-        return AllBooksCost/((float)BooksCount);
-    }
 
-    /**
-     *      добавление книги в конец массива
-     * */
-    public static void Add(PaperLiterature b){
-        AllBooksCost += b.price;
-        BooksCount++;
-    }
-
-    /**
-     *      удаление из конца массива
-     * */
-    public static void Delete(PaperLiterature b){
-        AllBooksCost -= b.price;
-        BooksCount--;
-    }
 }

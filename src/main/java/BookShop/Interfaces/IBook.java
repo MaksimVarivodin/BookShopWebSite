@@ -2,34 +2,45 @@ package BookShop.Interfaces;
 
 import java.io.Serializable;
 
+/**
+ *      Printed Comics Literature Interface
+ * */
+
 public interface IBook extends IPaperLit, Serializable {
+
+
     /**
-     *      геттер страниц
+     *      Returns the number of pages
      * */
     int getPages() ;
 
+
     /**
-     *      геттер кол-ства слов
+     *      Returns the number of words
      * */
     int getWords() ;
 
+
     /**
-     *      геттер ФИО
+     *      Returns the name of the author
      */
     String getAuthorName() ;
 
+
     /**
-     *      сеттер ФИО
+     *      Sets the name of the author
      * */
     void setAuthorName(String authorName) ;
 
+
     /**
-     *      сеттер страниц
+     *      Sets the number of pages
      * */
     void setPages(int pages) ;
 
+
     /**
-     *      сеттер кол-ства слов
+     *      Sets the number of words
      * */
     void setWords(int words) ;
 
